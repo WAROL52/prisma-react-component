@@ -1,4 +1,5 @@
-export type PrismaModelName = string;
+import { PrismaModelName } from "./generated/PrismaSchemaType";
+
 
 export type PrismaFieldValidationMessage = {
   message: string;
