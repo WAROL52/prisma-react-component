@@ -1,4 +1,4 @@
-import { PrismaModelName } from "./generated/PrismaSchemaType";
+import { PrismaModelName } from "./generated/prismaSchema";
 
 
 export type PrismaFieldValidationMessage = {
@@ -83,6 +83,19 @@ export type PrismaFieldAttributes = {
   "@ignore": null | boolean;
 };
 
+export type PrismaInfoMetaDefault = {
+  col:{}
+  className:string
+  label:string
+  descriptioin:string
+  validation$:PrismaFieldValidation
+  variant:string
+  visibled:boolean
+  disabled:boolean
+}
+
+export type PrismaInfoMeta=Partial<PrismaInfoMetaDefault&Record<string,string|Partial<Record<string,string>>>>
+
 export const prismaFieldTypeScalarNumbers = [
   "Int",
   "BigInt",
@@ -104,6 +117,7 @@ export type PrismaFieldTypeScalarNumber =
   (typeof prismaFieldTypeScalarNumbers)[number];
 
 export type PrismaTypeEnum = {
+  isEnumType:true
   name: string;
   values: string[];
 };
@@ -111,28 +125,29 @@ export type PrismaTypeEnum = {
 export type PrismaFieldTypeScalar = (typeof prismaFieldTypeScalars)[number];
 
 export type PrismaFieldTypeRelation = {
+  isRelationType:true
   modelName: PrismaModelName;
   fieldName: string;
   type: PrismaModelName | `${PrismaModelName}?` | `${PrismaModelName}[]`;
   relationType: "one-to-one" | "one-to-many" | "many-to-one" | "many-to-many";
 };
 
-export type PrismaFieldTypeOrinale =
-  | PrismaFieldTypeScalar
+export type PrismaFieldTypeOrinale = PrismaFieldTypeScalar | PrismaModelName
+  
+  export type PrismaFieldType =
+  | PrismaTypeEnum
   | PrismaFieldTypeRelation
-  | PrismaTypeEnum;
-
-export type PrismaFieldType =
-  | PrismaFieldTypeOrinale
+  |PrismaFieldTypeScalar
   | `${PrismaFieldTypeScalar}?`
   | `${PrismaFieldTypeScalar}[]`;
 
 export type PrismaField = {
-  label: null | string;
+  row:string
   name: string;
-  originalType: PrismaFieldTypeOrinale;
+  label: null | string;
+  originalType:null| PrismaFieldTypeOrinale;
   type: PrismaFieldType;
-  validation: null | PrismaFieldValidation;
+  validation: null | Partial<PrismaFieldValidation>;
   isUnique: boolean;
 };
 
@@ -160,12 +175,70 @@ export type PrismaModel = {
 };
 
 export type PrismaSchema = {
+  infoMeta:PrismaInfoMeta
   models: PrismaModel[];
-  enums: PrismaTypeEnum[];
+  enums:PrismaTypeEnum[]
+  modelNames:PrismaModelName[]
 };
 
 export const prismaModelRegex =
   /(?<description>(?:\/\/+?[^\n]*?\n\s*)*)model +(?<name>\w+) +{\s+(?<fields>[^]+?)\n\s*?}/g;
 
+export type PrismaModelRegexResult={
+  index:number,
+  groups:{
+    description:string,
+    name:string,
+    fields:string
+  }
+}
+
 export const prismaFieldRegex =
   /(?<description>(?:\/\/+?[^\n]*\n+\s*)*) *(?<field>\w[^\n]*?) *(?<symbole>\/\/+[^\n]*?)? *\n/g;
+
+export type PrismaFieldRegexResult={
+  index:number,
+  groups:{
+    description:string,
+    field:string
+    symbole:string,
+  }
+}
+
+export function parsePrismaModel(data:string):PrismaModelRegexResult[] {
+  return [...data.matchAll(prismaModelRegex)].map(el=>{
+    return {
+      index:el.index,
+      groups:(el.groups || {}) as PrismaModelRegexResult["groups"]
+    }
+  })
+}
+
+export function parsePrismaField(data:string):PrismaFieldRegexResult[] {
+  return [...data.matchAll(prismaFieldRegex)].map(el=>{
+    return {
+      index:el.index,
+      groups:(el.groups || {}) as PrismaFieldRegexResult["groups"]
+    }
+  })
+}
+
+export const prismaEnumRegex =
+  /(?<description>(?:\/\/+?[^\n]*?\n\s*)*)enum +(?<name>\w+) +{\s+(?<fields>[^]+?)\n\s*?}/g;
+
+export type PrismaEnumRegexResult={
+  index:number,
+  groups:{
+    description:string,
+    name:string,
+    fields:string
+  }
+}
+export function parsePrismaEnum(data:string):PrismaEnumRegexResult[] {
+  return [...data.matchAll(prismaEnumRegex)].map(el=>{
+    return {
+      index:el.index,
+      groups:(el.groups || {}) as PrismaEnumRegexResult["groups"]
+    }
+  })
+}
