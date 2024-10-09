@@ -1,49 +1,5 @@
 import { PrismaModelName, PrismaEnumType, PrismaEnumTypeName } from "./generated/prismaSchema";
-
-
-export type PrismaFieldValidationMessage = {
-  message: string;
-  value: number | string | boolean;
-};
-
-export type PrismaFieldValidation = {
-  max: null | PrismaFieldValidationMessage;
-  min: null | PrismaFieldValidationMessage;
-  length: null | PrismaFieldValidationMessage;
-  email: null | PrismaFieldValidationMessage;
-  url: null | PrismaFieldValidationMessage;
-  emoji: null | PrismaFieldValidationMessage;
-  uuid: null | PrismaFieldValidationMessage;
-  cuid: null | PrismaFieldValidationMessage;
-  cuid2: null | PrismaFieldValidationMessage;
-  ulid: null | PrismaFieldValidationMessage;
-  regex: null | PrismaFieldValidationMessage;
-  includes: null | PrismaFieldValidationMessage;
-  startsWith: null | PrismaFieldValidationMessage;
-  endsWith: null | PrismaFieldValidationMessage;
-  datetime: null | PrismaFieldValidationMessage;
-  ip: null | PrismaFieldValidationMessage;
-
-  toTrim: null | PrismaFieldValidationMessage;
-  toLowerCase: null | PrismaFieldValidationMessage;
-  toUpperCase: null | PrismaFieldValidationMessage;
-  gt: null | PrismaFieldValidationMessage;
-  gte: null | PrismaFieldValidationMessage;
-  lt: null | PrismaFieldValidationMessage;
-  lte: null | PrismaFieldValidationMessage;
-
-  int: null | PrismaFieldValidationMessage;
-
-  positive: null | PrismaFieldValidationMessage;
-  nonnegative: null | PrismaFieldValidationMessage;
-  negative: null | PrismaFieldValidationMessage;
-  nonpositive: null | PrismaFieldValidationMessage;
-
-  multipleOf: null | PrismaFieldValidationMessage;
-
-  finite: null | PrismaFieldValidationMessage;
-  safe: null | PrismaFieldValidationMessage;
-};
+import { PrismaInfoMetaDefault } from "./infoMeta";
 
 export type PrismaAttributeArguments = {
   fields: string[];
@@ -83,16 +39,7 @@ export type PrismaFieldAttributes = {
   "@ignore": null | boolean;
 };
 
-export type PrismaInfoMetaDefault = {
-  col:{}
-  className:string
-  label:string
-  descriptioin:string
-  variant:string
-  visibled:boolean
-  disabled:boolean
-  validation:Partial<PrismaFieldValidation>;
-}
+
 
 export type PrismaInfoMeta=Partial<PrismaInfoMetaDefault&Record<string,string|Partial<Record<string,string>>>>
 
