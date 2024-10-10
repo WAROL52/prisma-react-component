@@ -23,7 +23,7 @@ export const prismaEnumType = ${enumType} as const;
 export type PrismaEnumType = (typeof prismaEnumType);
 export type PrismaEnumTypeName = keyof PrismaEnumType;
 
-export const prismaSchema:PrismaSchema={
+export const dbSchema:PrismaSchema={
     models:${models},
     infoMeta:${infoMeta},
     enumType: prismaEnumType,

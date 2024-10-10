@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { parsePrismaEnum, parsePrismaField, parsePrismaModel, PrismaEnumRegexResult, PrismaFieldType, PrismaFieldTypeOrinale, PrismaScalarType, prismaScalarTypes, PrismaModel, prismaModelRegex, PrismaModelRegexResult, PrismaSchema, PrismaFieldTypeRelation, PrismaFieldRegexResult, PrismaFieldScalar, PrismaField, PrismaFieldEnum, PrismaFieldRelation } from "../types";
 import { PrismaModelName, PrismaEnumType } from "../types/generated/prismaSchema";
 
@@ -137,15 +138,19 @@ function getFieldScalar(field:PrismaFieldRegexResult,row:string,rows:string[]):n
     accessType:getaccessType(row),
     hasDefaultValue:row.includes("@default"),
     type,
-    infoMeta:{}
+    infoMeta:{},
+    validation:null
   }
 }
-
+function getZodTypeScalar(type:PrismaScalarType):z.ZodTypeAny {
+  return z.any()
+}
 function getFieldEnum(field:PrismaFieldRegexResult,row:string,rows:string[]):null|PrismaFieldEnum {
   const [type,originalType]=getPrismaFieldType(row,rows) as [PrismaFieldEnum["type"],PrismaFieldEnum["originalType"]]
   if (!Object.keys(enumTypeGlobal).includes(originalType)) {
     return null
   }
+  const enumList = [...enumTypeGlobal[originalType]!] as [string, ...string[]]
   return {
     row,
     fieldName:String(rows.at(0)),
@@ -155,7 +160,8 @@ function getFieldEnum(field:PrismaFieldRegexResult,row:string,rows:string[]):nul
     accessType:getaccessType(row),
     hasDefaultValue:row.includes("@default"),
     type,
-    infoMeta:{}
+    infoMeta:{},
+    validation:null
   }
 }
 
@@ -163,6 +169,7 @@ function getFieldRelation(field:PrismaFieldRegexResult,row:string,rows:string[])
   const [type,originalType]=getPrismaFieldType(row,rows) as [PrismaFieldRelation["type"],PrismaFieldRelation["originalType"]]
   if(typeof type != "object")
       return null
+  console.log([field.groups.description]);
   return {
     row,
     fieldName:String(rows.at(0)),
@@ -173,8 +180,10 @@ function getFieldRelation(field:PrismaFieldRegexResult,row:string,rows:string[])
     hasDefaultValue:row.includes("@default"),
     type,
     infoMeta:{},
+    validation:null
   }
 }
+
 function getaccessType(row:string) {
   return row.includes("?")?"optional":row.includes("[]")?"list":"require"
 }

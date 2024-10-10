@@ -1,5 +1,10 @@
+import { z } from "zod"
+
+export type ZodObject = z.AnyZodObject
+
 export type Size = "xs" | "sm" | "md" | "lg" | "xl"
 export type Position = "top" | "bottom" | "left" | "right"
+
 export type PrismaInfoMetaDefault = {
     col:{}
     className:string
@@ -8,16 +13,12 @@ export type PrismaInfoMetaDefault = {
     variant:string
     visibled:boolean
     disabled:boolean
-    validation:Partial<PrismaFieldValidation>
     index:number
     radius:Size
     prefix:string
     suffix:string
     symbolRequired:string
     symbolOptional:string
-    showSymbol:boolean
-    showSymbolRequired:boolean
-    showSymbolOptional:boolean
 }
 
   export type PrismaFieldValidation = {

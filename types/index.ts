@@ -1,5 +1,6 @@
+import { ZodAny, ZodAnyDef, ZodTypeAny } from "zod";
 import { PrismaModelName, PrismaEnumType, PrismaEnumTypeName } from "./generated/prismaSchema";
-import { PrismaInfoMetaDefault } from "./infoMeta";
+import { PrismaInfoMetaDefault, ZodObject } from "./infoMeta";
 
 export type PrismaAttributeArguments = {
   fields: string[];
@@ -91,10 +92,14 @@ export type PrismaFieldBase = {
   isUnique: boolean;
   accessType:"require"|"optional"|"list"
   hasDefaultValue:boolean
+  validation:null|string
 };
+export const PRISMA_FIELD_SCALAR="scalar"
+export const PRISMA_FIELD_ENUM="enum"
+export const PRISMA_FIELD_RELATION="relation"
 
 export type PrismaFieldScalar = PrismaFieldBase & {
-  fieldType:"scalar",
+  fieldType:typeof PRISMA_FIELD_SCALAR,
   originalType:PrismaScalarType;
   type: PrismaScalarType
   | `${PrismaScalarType}?`
@@ -102,7 +107,7 @@ export type PrismaFieldScalar = PrismaFieldBase & {
 }
 
 export type PrismaFieldEnum = PrismaFieldBase & {
-  fieldType:"enum"
+  fieldType:typeof PRISMA_FIELD_ENUM
   originalType:PrismaEnumTypeName;
   type: PrismaEnumTypeName
   | `${PrismaEnumTypeName}?`
@@ -110,7 +115,7 @@ export type PrismaFieldEnum = PrismaFieldBase & {
 }
 
 export type PrismaFieldRelation = PrismaFieldBase & {
-  fieldType:"relation"
+  fieldType:typeof PRISMA_FIELD_RELATION
   originalType:PrismaModelName;
   type: PrismaFieldTypeRelation;
 }
@@ -143,7 +148,7 @@ export type PrismaModelRegexResult={
 }
 
 export const prismaFieldRegex =
-  /(?<description>(?:\/\/+?[^\n]*\n+\s*)*) *(?<field>\w[^\n]*?) *(?<symbole>\/\/+[^\n]*?)?\s*(?:\n|$)/g;
+  /(?<description>(?:\/\/+?[^\n]*\n+\s*)*) *(?<field>\w[^\n]*?) *(?<symbole>\/\/+[^\n]*?)?\s*(?:\n|$)/gm;
 
 export type PrismaFieldRegexResult = {
   index:number,

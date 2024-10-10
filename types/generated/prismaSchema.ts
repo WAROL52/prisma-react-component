@@ -8,22 +8,11 @@ export const prismaEnumType = {"Role":["USER","  ADMIN"],"Action":["GET","  CREA
 export type PrismaEnumType = (typeof prismaEnumType);
 export type PrismaEnumTypeName = keyof PrismaEnumType;
 
-export const prismaSchema:PrismaSchema={
+export const dbSchema:PrismaSchema={
     models:[
   {
     "modelName": "User",
     "fields": [
-      {
-        "row": "actions Action[]",
-        "fieldName": "actions",
-        "fieldType": "enum",
-        "isUnique": false,
-        "originalType": "Action",
-        "accessType": "list",
-        "hasDefaultValue": false,
-        "type": "Action[]",
-        "infoMeta": {}
-      },
       {
         "row": "id      Int      @id @default(autoincrement())",
         "fieldName": "id",
@@ -33,7 +22,20 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "actions Action[]",
+        "fieldName": "actions",
+        "fieldType": "enum",
+        "isUnique": false,
+        "originalType": "Action",
+        "accessType": "list",
+        "hasDefaultValue": false,
+        "type": "Action[]",
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "email   String   @unique",
@@ -44,7 +46,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "name    String?",
@@ -55,7 +58,68 @@ export const prismaSchema:PrismaSchema={
         "accessType": "optional",
         "hasDefaultValue": false,
         "type": "String?",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "surnom    String?",
+        "fieldName": "surnom",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "String",
+        "accessType": "optional",
+        "hasDefaultValue": false,
+        "type": "String?",
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "age    Int?",
+        "fieldName": "age",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "Int",
+        "accessType": "optional",
+        "hasDefaultValue": false,
+        "type": "Int?",
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "dateNaissance    DateTime?",
+        "fieldName": "dateNaissance",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "DateTime",
+        "accessType": "optional",
+        "hasDefaultValue": false,
+        "type": "DateTime?",
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "taille    Decimal?",
+        "fieldName": "taille",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "Decimal",
+        "accessType": "optional",
+        "hasDefaultValue": false,
+        "type": "Decimal?",
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "nom String",
+        "fieldName": "nom",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "String",
+        "accessType": "require",
+        "hasDefaultValue": false,
+        "type": "String",
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "role    Role     @default(USER)",
@@ -66,7 +130,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Role",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "posts   Post[]",
@@ -83,7 +148,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "many-to-one",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "folders  Folder[]",
@@ -100,7 +166,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "many-to-one",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "profile Profile?",
@@ -117,7 +184,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "one-to-one",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
@@ -134,7 +202,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "name      String",
@@ -145,7 +214,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "ownerId   Int",
@@ -156,7 +226,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "owner     User     @relation(fields: [ownerId], references: [id])",
@@ -173,7 +244,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "one-to-many",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "parentId  Int?",
@@ -184,10 +256,11 @@ export const prismaSchema:PrismaSchema={
         "accessType": "optional",
         "hasDefaultValue": false,
         "type": "Int?",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
-        "row": "parent    Folder?  @relation(\"Parent45Folder\", fields: [parentId], references: [id])",
+        "row": "parent    Folder?  @relation(\"ParentFolder\", fields: [parentId], references: [id])",
         "fieldName": "parent",
         "fieldType": "relation",
         "isUnique": false,
@@ -199,12 +272,13 @@ export const prismaSchema:PrismaSchema={
           "otherModelName": "Folder",
           "type": "Folder?",
           "relationType": "one-to-many",
-          "relationName": "Parent45Folder"
+          "relationName": "ParentFolder"
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
-        "row": "children  Folder[] @relation(\"Parent45Folder\")",
+        "row": "children  Folder[] @relation(\"ParentFolder\")",
         "fieldName": "children",
         "fieldType": "relation",
         "isUnique": false,
@@ -216,9 +290,10 @@ export const prismaSchema:PrismaSchema={
           "otherModelName": "Folder",
           "type": "Folder[]",
           "relationType": "many-to-one",
-          "relationName": "Parent45Folder"
+          "relationName": "ParentFolder"
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "files     File[]",
@@ -235,7 +310,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "many-to-one",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
@@ -252,7 +328,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "name      String",
@@ -263,7 +340,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "path      String",
@@ -274,7 +352,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "folderId  Int",
@@ -285,7 +364,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "folder    Folder   @relation(fields: [folderId], references: [id])",
@@ -302,7 +382,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "one-to-many",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
@@ -319,7 +400,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "bio    String",
@@ -330,7 +412,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "user   User   @relation(fields: [userId], references: [id])",
@@ -347,7 +430,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "one-to-one",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "userId Int    @unique",
@@ -358,7 +442,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
@@ -375,7 +460,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "createdAt  DateTime   @default(now())",
@@ -386,7 +472,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "DateTime",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "updatedAt  DateTime   @updatedAt",
@@ -397,7 +484,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "DateTime",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "title      String",
@@ -408,7 +496,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "published  Boolean    @default(false)",
@@ -419,7 +508,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Boolean",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "author     User       @relation(fields: [authorId], references: [id])",
@@ -436,7 +526,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "one-to-many",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "authorId   Int",
@@ -447,7 +538,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "categories Category[]",
@@ -464,7 +556,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "many-to-many",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "actions Action[]",
@@ -475,7 +568,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "list",
         "hasDefaultValue": false,
         "type": "Action[]",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
@@ -492,7 +586,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": true,
         "type": "Int",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "name  String",
@@ -503,7 +598,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "require",
         "hasDefaultValue": false,
         "type": "String",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "posts Post[]",
@@ -520,7 +616,8 @@ export const prismaSchema:PrismaSchema={
           "relationType": "many-to-many",
           "relationName": null
         },
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       },
       {
         "row": "action Action?",
@@ -531,7 +628,8 @@ export const prismaSchema:PrismaSchema={
         "accessType": "optional",
         "hasDefaultValue": false,
         "type": "Action?",
-        "infoMeta": {}
+        "infoMeta": {},
+        "validation": null
       }
     ],
     "infoMeta": {}
