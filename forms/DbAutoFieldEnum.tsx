@@ -2,14 +2,15 @@
 
 import { PrismaFieldEnum } from "../types";
 import { DbAutoFieldProps } from "./DbAutoField";
-import { DbAutoFieldBase, DbAutoFieldBaseProps } from "./DbAutoFieldBase";
+import { FieldRadio } from "./fields/FieldRadio";
 
-export type DbAutoFieldEnumProps = DbAutoFieldProps&{
-    field:PrismaFieldEnum
+export type DbAutoFieldEnumProps = DbAutoFieldProps & {
+  dbField: PrismaFieldEnum
 }
 
 export function DbAutoFieldEnum(props: DbAutoFieldEnumProps) {
-  return <DbAutoFieldBase {...props} >
-    123
-  </DbAutoFieldBase>
+  if (props.dbField.fieldType != "enum") {
+    return null
+  }
+  return <FieldRadio {...props} />
 }

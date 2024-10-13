@@ -2,14 +2,13 @@
 
 import { PrismaFieldRelation } from "../types";
 import { DbAutoFieldProps } from "./DbAutoField";
-import { DbAutoFieldBase, DbAutoFieldBaseProps } from "./DbAutoFieldBase";
 
-export type DbAutoFieldRelationProps = DbAutoFieldProps&{
-    field:PrismaFieldRelation
+export type DbAutoFieldRelationProps = DbAutoFieldProps & {
+  dbField: PrismaFieldRelation
 }
 
 export function DbAutoFieldRelation(props: DbAutoFieldRelationProps) {
-  return <DbAutoFieldBase {...props} >
-  123
-</DbAutoFieldBase>
+  return <div  >
+    {props.dbField.fieldName}:{props.dbField.fieldType}
+  </div>
 }

@@ -4,7 +4,7 @@ import { PrismaSchema } from "..";
 export const prismaModelNames = ["User","Folder","File","Profile","Post","Category"] as const;
 export type PrismaModelName = (typeof prismaModelNames)[number];
 
-export const prismaEnumType = {"Role":["USER","  ADMIN"],"Action":["GET","  CREATE","  UPDATE","  DELETE"]} as const;
+export const prismaEnumType = {"Role":["USER","ADMIN","SUPADMIN"],"Action":["GET","CREATE","UPDATE","DELETE"]} as const;
 export type PrismaEnumType = (typeof prismaEnumType);
 export type PrismaEnumTypeName = keyof PrismaEnumType;
 
@@ -14,7 +14,7 @@ export const dbSchema:PrismaSchema={
     "modelName": "User",
     "fields": [
       {
-        "row": "id      Int      @id @default(autoincrement())",
+        "row": "id            Int       @id @default(autoincrement())",
         "fieldName": "id",
         "fieldType": "scalar",
         "isUnique": false,
@@ -26,7 +26,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "actions Action[]",
+        "row": "actions       Action[]",
         "fieldName": "actions",
         "fieldType": "enum",
         "isUnique": false,
@@ -38,7 +38,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "email   String   @unique",
+        "row": "email         String    @unique",
         "fieldName": "email",
         "fieldType": "scalar",
         "isUnique": true,
@@ -50,7 +50,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "name    String?",
+        "row": "name          String?",
         "fieldName": "name",
         "fieldType": "scalar",
         "isUnique": false,
@@ -62,7 +62,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "surnom    String?",
+        "row": "surnom        String?",
         "fieldName": "surnom",
         "fieldType": "scalar",
         "isUnique": false,
@@ -74,7 +74,19 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "age    Int?",
+        "row": "isAdmin       Boolean",
+        "fieldName": "isAdmin",
+        "fieldType": "scalar",
+        "isUnique": false,
+        "originalType": "Boolean",
+        "accessType": "require",
+        "hasDefaultValue": false,
+        "type": "Boolean",
+        "infoMeta": {},
+        "validation": null
+      },
+      {
+        "row": "age           Int?",
         "fieldName": "age",
         "fieldType": "scalar",
         "isUnique": false,
@@ -86,7 +98,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "dateNaissance    DateTime?",
+        "row": "dateNaissance DateTime?",
         "fieldName": "dateNaissance",
         "fieldType": "scalar",
         "isUnique": false,
@@ -98,7 +110,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "taille    Decimal?",
+        "row": "taille        Decimal?",
         "fieldName": "taille",
         "fieldType": "scalar",
         "isUnique": false,
@@ -110,7 +122,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "nom String",
+        "row": "nom           String",
         "fieldName": "nom",
         "fieldType": "scalar",
         "isUnique": false,
@@ -122,7 +134,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "role    Role     @default(USER)",
+        "row": "role          Role      @default(USER)",
         "fieldName": "role",
         "fieldType": "enum",
         "isUnique": false,
@@ -134,7 +146,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "posts   Post[]",
+        "row": "posts         Post[]",
         "fieldName": "posts",
         "fieldType": "relation",
         "isUnique": false,
@@ -152,7 +164,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "folders  Folder[]",
+        "row": "folders       Folder[]",
         "fieldName": "folders",
         "fieldType": "relation",
         "isUnique": false,
@@ -170,7 +182,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "profile Profile?",
+        "row": "profile       Profile?",
         "fieldName": "profile",
         "fieldType": "relation",
         "isUnique": false,
@@ -194,7 +206,7 @@ export const dbSchema:PrismaSchema={
     "modelName": "Folder",
     "fields": [
       {
-        "row": "id        Int      @id @default(autoincrement())",
+        "row": "id       Int      @id @default(autoincrement())",
         "fieldName": "id",
         "fieldType": "scalar",
         "isUnique": false,
@@ -206,7 +218,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "name      String",
+        "row": "name     String",
         "fieldName": "name",
         "fieldType": "scalar",
         "isUnique": false,
@@ -218,7 +230,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "ownerId   Int",
+        "row": "ownerId  Int",
         "fieldName": "ownerId",
         "fieldType": "scalar",
         "isUnique": false,
@@ -230,7 +242,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "owner     User     @relation(fields: [ownerId], references: [id])",
+        "row": "owner    User     @relation(fields: [ownerId], references: [id])",
         "fieldName": "owner",
         "fieldType": "relation",
         "isUnique": false,
@@ -248,7 +260,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "parentId  Int?",
+        "row": "parentId Int?",
         "fieldName": "parentId",
         "fieldType": "scalar",
         "isUnique": false,
@@ -260,7 +272,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "parent    Folder?  @relation(\"ParentFolder\", fields: [parentId], references: [id])",
+        "row": "parent   Folder?  @relation(\"ParentFolder\", fields: [parentId], references: [id])",
         "fieldName": "parent",
         "fieldType": "relation",
         "isUnique": false,
@@ -278,7 +290,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "children  Folder[] @relation(\"ParentFolder\")",
+        "row": "children Folder[] @relation(\"ParentFolder\")",
         "fieldName": "children",
         "fieldType": "relation",
         "isUnique": false,
@@ -296,7 +308,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "files     File[]",
+        "row": "files    File[]",
         "fieldName": "files",
         "fieldType": "relation",
         "isUnique": false,
@@ -320,7 +332,7 @@ export const dbSchema:PrismaSchema={
     "modelName": "File",
     "fields": [
       {
-        "row": "id        Int      @id @default(autoincrement())",
+        "row": "id       Int    @id @default(autoincrement())",
         "fieldName": "id",
         "fieldType": "scalar",
         "isUnique": false,
@@ -332,7 +344,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "name      String",
+        "row": "name     String",
         "fieldName": "name",
         "fieldType": "scalar",
         "isUnique": false,
@@ -344,7 +356,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "path      String",
+        "row": "path     String",
         "fieldName": "path",
         "fieldType": "scalar",
         "isUnique": false,
@@ -356,7 +368,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "folderId  Int",
+        "row": "folderId Int",
         "fieldName": "folderId",
         "fieldType": "scalar",
         "isUnique": false,
@@ -368,7 +380,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "folder    Folder   @relation(fields: [folderId], references: [id])",
+        "row": "folder   Folder @relation(fields: [folderId], references: [id])",
         "fieldName": "folder",
         "fieldType": "relation",
         "isUnique": false,
@@ -560,7 +572,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "actions Action[]",
+        "row": "actions    Action[]",
         "fieldName": "actions",
         "fieldType": "enum",
         "isUnique": false,
@@ -578,7 +590,7 @@ export const dbSchema:PrismaSchema={
     "modelName": "Category",
     "fields": [
       {
-        "row": "id    Int    @id @default(autoincrement())",
+        "row": "id     Int     @id @default(autoincrement())",
         "fieldName": "id",
         "fieldType": "scalar",
         "isUnique": false,
@@ -590,7 +602,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "name  String",
+        "row": "name   String",
         "fieldName": "name",
         "fieldType": "scalar",
         "isUnique": false,
@@ -602,7 +614,7 @@ export const dbSchema:PrismaSchema={
         "validation": null
       },
       {
-        "row": "posts Post[]",
+        "row": "posts  Post[]",
         "fieldName": "posts",
         "fieldType": "relation",
         "isUnique": false,

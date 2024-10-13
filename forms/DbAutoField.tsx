@@ -6,21 +6,21 @@ import { DbAutoFieldScalar } from "./DbAutoFieldScalar";
 import { DbAutoFieldEnum } from "./DbAutoFieldEnum";
 import { DbAutoFieldRelation } from "./DbAutoFieldRelation";
 export type DbAutoFieldProps = {
-    model:PrismaModel
-  field:PrismaField
-  form:UseFormReturn
+  dbModel: PrismaModel
+  dbField: PrismaField
+  form: UseFormReturn
 }
 
 export function DbAutoField(props: DbAutoFieldProps) {
-    if (props.field.fieldType === PRISMA_FIELD_SCALAR) {
-        return <DbAutoFieldScalar {...props} field={props.field} />
-    }
-    if (props.field.fieldType === PRISMA_FIELD_ENUM) {
-        return <DbAutoFieldEnum {...props} field={props.field} />
-    }
-    if (props.field.fieldType === PRISMA_FIELD_RELATION) {
-        return <DbAutoFieldRelation {...props} field={props.field}  />
-    }
+  if (props.dbField.fieldType === PRISMA_FIELD_SCALAR) {
+    return <DbAutoFieldScalar {...props} dbField={props.dbField} />
+  }
+  if (props.dbField.fieldType === PRISMA_FIELD_ENUM) {
+    return <DbAutoFieldEnum {...props} dbField={props.dbField} />
+  }
+  if (props.dbField.fieldType === PRISMA_FIELD_RELATION) {
+    return <DbAutoFieldRelation {...props} dbField={props.dbField} />
+  }
   return null
 }
 
