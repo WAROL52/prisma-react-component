@@ -8,11 +8,12 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useFieldControl } from "./useFieldControl";
+import { useFieldControl } from "../useFieldControl";
 export type FieldDatePickerProps = DbAutoFieldProps;
 
-export function FieldDatePicker({ dbField, dbModel, form }: FieldDatePickerProps) {
-	const { label, name, description } = useFieldControl({ dbField, dbModel, form })
+export function FieldDatePicker({ fieldControl }: FieldDatePickerProps) {
+	const { dbField, dbModel, form } = fieldControl
+	const { label, name, description } = useFieldControl({ fieldControl })
 	return <FormField
 		control={form.control}
 		name={name}

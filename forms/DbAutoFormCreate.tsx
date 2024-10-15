@@ -20,32 +20,18 @@ import { Form } from "@/components/ui/form";
 import { PrismaModel } from "../types";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import { DevTool } from "@hookform/devtools";
+import { useFormControl } from "./useFormControl";
 export type DbAutoFormCreateProps<T extends PrismaModelName> = {
   modelName: T
   action: "create"
+  dbModel: PrismaModel
 };
 
 export function DbAutoFormCreate<T extends PrismaModelName>(props: DbAutoFormCreateProps<T>) {
   const { toast } = useToast()
-  const model = dbSchema.models.find(model => model.modelName === props.modelName)
-  if (!model) {
-    return <Alert variant={"destructive"} > modelName not found! </Alert>
-  }
-  const zodtype = z.object(genZodType(model, {}))
-
-  const form = useForm({
-    resolver: zodResolver(zodtype),
-  });
-  useEffect(() => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify({}, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }, [])
+  const formControl = useFormControl(props)
+  const { fieldControls, form } = formControl
   function onSubmit(data: any) {
     console.log({ data });
 
@@ -61,27 +47,28 @@ export function DbAutoFormCreate<T extends PrismaModelName>(props: DbAutoFormCre
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto">
-        {model.fields.map(field => {
-          if (field.row.includes("@id") && field.row.includes("@default")) {
+        {fieldControls.map(fieldControl => {
+          if (fieldControl.dbField.row.includes("@id") && fieldControl.dbField.row.includes("@default")) {
             return null
           }
-          return <DbAutoField key={field.fieldName} dbField={field} form={form} dbModel={model} />
+          return <DbAutoField key={fieldControl.dbField.fieldName} fieldControl={fieldControl} />
         })}
         <Button type="submit" className="w-full">
           Submit
         </Button>
       </form>
+      <DevTool control={form.control} />
     </Form>
   );
 }
 
 function genZodType(model: PrismaModel, zodtype: z.ZodRawShape): z.ZodRawShape {
   model.fields.map(field => {
+    if (field.row.includes("@id") && field.row.includes("@default")) {
+      return null
+    }
     if (field.originalType === "Int")
       zodtype[field.fieldName] = z.number()
-        .int()
-        .max(2 ** 31)
-        .min(-(2 ** 31))
     else if (field.originalType === "BigInt")
       zodtype[field.fieldName] = z.bigint()
     else if (field.originalType === "Boolean")
@@ -104,7 +91,7 @@ function genZodType(model: PrismaModel, zodtype: z.ZodRawShape): z.ZodRawShape {
       zodtype[field.fieldName] = z.enum(prismaEnumType[field.originalType])
     }
     else
-      zodtype[field.fieldName] = z.any().optional()
+      zodtype[field.fieldName] = z.string().optional()
     if (field.accessType == "optional" || field.accessType == "list") {
       zodtype[field.fieldName] = zodtype[field.fieldName].optional()
     }

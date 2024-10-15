@@ -13,12 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { DbAutoFieldProps } from "../DbAutoField";
 import { ReactNode } from "react";
-import { useFieldControl } from "./useFieldControl";
+import { useFieldControl } from "../useFieldControl";
 
 export type FieldCheckboxProps = DbAutoFieldProps;
 
-export function FieldCheckbox({ dbField, form, dbModel }: FieldCheckboxProps) {
-	const { label, name, description } = useFieldControl({ dbField, dbModel, form })
+export function FieldCheckbox({ fieldControl }: FieldCheckboxProps) {
+	const { dbField, dbModel, form } = fieldControl
+	const { label, name, description } = useFieldControl({ fieldControl })
 	return (
 		<FormField
 			control={form.control}
@@ -47,12 +48,9 @@ export type FieldCheckboxMultipleProps = FieldCheckboxProps & {
 		value: string;
 	}[];
 };
-export function FieldCheckboxMultiple({
-	dbField,
-	form,
-	dbModel,
-	items,
-}: FieldCheckboxMultipleProps) {
+export function FieldCheckboxMultiple({ fieldControl, items }: FieldCheckboxMultipleProps) {
+	const { dbField, dbModel, form } = fieldControl
+	const { label, name, description } = useFieldControl({ fieldControl })
 	return (
 		<FormField
 			control={form.control}

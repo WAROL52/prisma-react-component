@@ -5,21 +5,20 @@ import { UseFormReturn } from "react-hook-form";
 import { DbAutoFieldScalar } from "./DbAutoFieldScalar";
 import { DbAutoFieldEnum } from "./DbAutoFieldEnum";
 import { DbAutoFieldRelation } from "./DbAutoFieldRelation";
+import { FieldControl } from "./useFormControl";
 export type DbAutoFieldProps = {
-  dbModel: PrismaModel
-  dbField: PrismaField
-  form: UseFormReturn
+  fieldControl: FieldControl
 }
 
-export function DbAutoField(props: DbAutoFieldProps) {
-  if (props.dbField.fieldType === PRISMA_FIELD_SCALAR) {
-    return <DbAutoFieldScalar {...props} dbField={props.dbField} />
+export function DbAutoField({ fieldControl }: DbAutoFieldProps) {
+  if (fieldControl.dbField.fieldType === PRISMA_FIELD_SCALAR) {
+    return <DbAutoFieldScalar dbField={fieldControl.dbField} fieldControl={fieldControl} />
   }
-  if (props.dbField.fieldType === PRISMA_FIELD_ENUM) {
-    return <DbAutoFieldEnum {...props} dbField={props.dbField} />
+  if (fieldControl.dbField.fieldType === PRISMA_FIELD_ENUM) {
+    return <DbAutoFieldEnum dbField={fieldControl.dbField} fieldControl={fieldControl} />
   }
-  if (props.dbField.fieldType === PRISMA_FIELD_RELATION) {
-    return <DbAutoFieldRelation {...props} dbField={props.dbField} />
+  if (fieldControl.dbField.fieldType === PRISMA_FIELD_RELATION) {
+    return <DbAutoFieldRelation dbField={fieldControl.dbField} fieldControl={fieldControl} />
   }
   return null
 }

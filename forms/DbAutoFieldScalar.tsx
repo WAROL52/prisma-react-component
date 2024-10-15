@@ -21,25 +21,26 @@ export function DbAutoFieldScalar(props: DbAutoFieldScalarProps) {
 }
 
 function DbField(props: DbAutoFieldProps) {
-    if (props.dbField.originalType === "Int")
+    const { dbField } = props.fieldControl
+    if (props.fieldControl.dbField.originalType === "Int")
         return <FieldNumber {...props} />
-    if (props.dbField.originalType === "BigInt")
+    if (dbField.originalType === "BigInt")
         return <FieldNumber {...props} />
-    if (props.dbField.originalType === "Boolean")
+    if (dbField.originalType === "Boolean")
         return <FieldCheckbox {...props} />
-    if (props.dbField.originalType === "Bytes")
+    if (dbField.originalType === "Bytes")
         return <FieldInputString {...props} />
-    if (props.dbField.originalType === "DateTime")
+    if (dbField.originalType === "DateTime")
         return <FieldDatePicker {...props} />
-    if (props.dbField.originalType === "Decimal")
+    if (dbField.originalType === "Decimal")
         return <FieldNumber {...props} />
-    if (props.dbField.originalType === "Float")
+    if (dbField.originalType === "Float")
         return <FieldNumber {...props} />
-    if (props.dbField.originalType === "Json")
+    if (dbField.originalType === "Json")
         return <FieldInputString {...props} />
-    if (props.dbField.originalType === "String")
+    if (dbField.originalType === "String")
         return <FieldInputString {...props} />
-    if (props.dbField.originalType === "Unsupported")
+    if (dbField.originalType === "Unsupported")
         return <FieldInputString {...props} />
     return null
 }
